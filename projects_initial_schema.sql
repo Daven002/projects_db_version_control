@@ -1,5 +1,5 @@
 --
--- PostgreSQL database dump by daven
+-- PostgreSQL database dump
 --
 
 -- Dumped from database version 14.11 (Postgres.app)
@@ -155,19 +155,6 @@ ALTER SEQUENCE public.data_index_seq OWNED BY public.data.index;
 
 
 --
--- Name: projects_tools; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.projects_tools (
-    index integer NOT NULL,
-    tool character varying(50) NOT NULL,
-    category_index integer
-);
-
-
-ALTER TABLE public.projects_tools OWNER TO postgres;
-
---
 -- Name: simple_project_index_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -190,6 +177,33 @@ ALTER SEQUENCE public.simple_project_index_seq OWNED BY public.basic_projects.in
 
 
 --
+-- Name: tools_id_seq; Type: SEQUENCE; Schema: public; Owner: daven
+--
+
+CREATE SEQUENCE public.tools_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tools_id_seq OWNER TO daven;
+
+--
+-- Name: tools; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tools (
+    index integer DEFAULT nextval('public.tools_id_seq'::regclass) NOT NULL,
+    tool character varying(50) NOT NULL,
+    category_index integer
+);
+
+
+ALTER TABLE public.tools OWNER TO postgres;
+
+--
 -- Name: tools_index_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -208,7 +222,7 @@ ALTER TABLE public.tools_index_seq OWNER TO postgres;
 -- Name: tools_index_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.tools_index_seq OWNED BY public.projects_tools.index;
+ALTER SEQUENCE public.tools_index_seq OWNED BY public.tools.index;
 
 
 --
@@ -237,13 +251,6 @@ ALTER TABLE ONLY public.complex_projects ALTER COLUMN index SET DEFAULT nextval(
 --
 
 ALTER TABLE ONLY public.data ALTER COLUMN index SET DEFAULT nextval('public.data_index_seq'::regclass);
-
-
---
--- Name: projects_tools index; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.projects_tools ALTER COLUMN index SET DEFAULT nextval('public.tools_index_seq'::regclass);
 
 
 --
@@ -287,10 +294,10 @@ ALTER TABLE ONLY public.basic_projects
 
 
 --
--- Name: projects_tools tools_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tools tools_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.projects_tools
+ALTER TABLE ONLY public.tools
     ADD CONSTRAINT tools_pkey PRIMARY KEY (index);
 
 
@@ -344,10 +351,10 @@ ALTER TABLE ONLY public.basic_projects
 
 
 --
--- Name: projects_tools tools_category_index_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tools tools_category_index_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.projects_tools
+ALTER TABLE ONLY public.tools
     ADD CONSTRAINT tools_category_index_fkey FOREIGN KEY (category_index) REFERENCES public.categories(index);
 
 
