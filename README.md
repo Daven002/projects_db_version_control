@@ -28,6 +28,8 @@ The database schema comprises several tables, each serving a unique role in proj
 
 - **Tools and Projects**: The `tools` table is designed to link with project categories, illustrating the tools used across different project types.
 
+![erd diagram][erd.png]
+
 ## Repository Structure
 
 - `README.md`: Provides an overview and guide for the database schema.
